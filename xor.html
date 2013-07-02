@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+  <head>
+    <script type='text/javascript'>
+      function displayResult() {
+        var hexPattern = /([0-9a-f]{2})/;
+        var chars = [];
+        var result_string = '';
+        var xor_key = parseInt(document.getElementById("key_input").value, 16);
+        var text = document.getElementById("encoded_string").value.split(hexPattern);
+        for (var i = 0; i < text.length; i++) {
+          if (! text[i] == '') result_string += String.fromCharCode((parseInt(text[i], 16)) ^ xor_key);
+        }
+        document.getElementById("results").innerHTML = result_string.split('').join('');
+      };
+    </script>
+  </head>
+  <body>
+    <div>
+      <label id='key_lbl' for='key_input'>Key</label>
+      <input id='key_input' name='key'></input>
+    </div>
+    <div><label id='encoded_string_lbl' for='encoded_string'>Encoded String</label></div>
+    <textarea id="encoded_string" cols="80" rows="5">616263</textarea>
+    <br>
+    <button type="button" onclick="displayResult()">Decode</button>
+    <div id="results"></div>
+  </body>
+</html>
