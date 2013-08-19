@@ -17,7 +17,7 @@
   <body>
     <div>
       <label id='key_lbl' for='key_input'>Key</label>
-      <input id='key_input' name='key'></input>
+      <input type='text' required pattern='[0-9a-fA-F]{2}' id='key_input' name='key'></input>
     </div>
     <div><label id='encoded_string_lbl' for='encoded_string'>Encoded String</label></div>
     <textarea id="encoded_string" cols="80" rows="5">616263</textarea>
