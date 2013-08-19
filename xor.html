@@ -10,19 +10,21 @@
         for (var i = 0; i < text.length; i++) {
           if (! text[i] == '') result_string += String.fromCharCode((parseInt(text[i], 16)) ^ xor_key);
         }
-        document.getElementById("results").innerHTML = result_string.split('').join('');
+        document.getElementById("results").value = result_string.split('').join('');
       };
     </script>
   </head>
   <body>
     <div>
-      <label id='key_lbl' for='key_input'>Key</label>
-      <input type='text' required pattern='[0-9a-fA-F]{2}' id='key_input' name='key'></input>
+      <label id='key_lbl' for='key_input'>Single Hex Character Key</label>
+      <input type='text' required pattern='[0-9a-fA-F]{2}' id='key_input' name='key' size='2'></input>
+      <button type="button" onclick="displayResult()">Decode</button>
     </div>
-    <div><label id='encoded_string_lbl' for='encoded_string'>Encoded String</label></div>
-    <textarea id="encoded_string" cols="80" rows="5">616263</textarea>
     <br>
-    <button type="button" onclick="displayResult()">Decode</button>
-    <div id="results"></div>
+    <div><label id='encoded_string_lbl' for='encoded_string'>Encoded String (hex)</label></div>
+    <textarea id="encoded_string" cols="80" rows="5" placeholder='Paste hex to decode here.'></textarea>
+    <br><br>
+    <div><label id='results_lbl' for='results'>Decoded String (ASCII)</label></div>
+    <textarea readonly id="results" cols="80" rows="5"></textarea>
   </body>
 </html>
