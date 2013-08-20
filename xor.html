@@ -2,6 +2,10 @@
   <head>
     <script type='text/javascript'>
       function displayResult() {
+        if (document.getElementById('key_input').validity.patternMismatch || document.getElementById('key_input').validity.valueMissing) {
+          alert('Invalid key!');
+          return;
+        }
         var hexPattern = /([0-9a-f]{2})/ig;
         var result_string = '';
         var xor_key = parseInt(document.getElementById("key_input").value, 16);
@@ -16,7 +20,7 @@
   <body>
     <div>
       <label id='key_lbl' for='key_input'>Single Hex Character Key</label>
-      <input type='text' required pattern='[0-9a-fA-F]{2}' id='key_input' name='key' size='2'></input>
+      <input type='text' required pattern='^[0-9a-fA-F]{2}$' id='key_input' name='key' size='2'></input>
       <button type="button" onclick="displayResult()">Decode</button>
     </div>
     <br>
