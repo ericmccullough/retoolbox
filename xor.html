@@ -8,11 +8,11 @@
           alert('Invalid key!');
           return;
         }
-        var hexPattern = /([0-9a-f]{2})/ig;
+        var hex_pattern = /([0-9a-f]{2})/ig;
         var hex_result = '';
         var ascii_result = '';
         var xor_key = parseInt(document.getElementById("key_input").value, 16);
-        var text = document.getElementById("encoded_string").value.match(hexPattern);
+        var text = document.getElementById("encoded_string").value.match(hex_pattern);
         for (var i = 0; i < text.length; i++) {
           hex_result += (parseInt(text[i], 16) ^ xor_key).toString(16);
           ascii_result += String.fromCharCode(parseInt(text[i], 16) ^ xor_key);
