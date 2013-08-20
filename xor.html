@@ -8,6 +8,11 @@
           alert('Invalid key!');
           return;
         }
+        var invalid_char = /[^0-9a-f]/i;
+        if (invalid_char.test(document.getElementById("encoded_string").value) || (document.getElementById("encoded_string").value.length)%2) {
+          alert('Invalid hex character in hex to be decoded.');
+          return;
+        }
         var hex_pattern = /([0-9a-f]{2})/ig;
         var hex_result = '';
         var ascii_result = '';
