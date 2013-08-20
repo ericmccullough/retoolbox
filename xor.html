@@ -2,18 +2,23 @@
   <head>
     <script type='text/javascript'>
       function displayResult() {
+        document.getElementById("hex_results").value = '';
+        document.getElementById("results").value = '';
         if (document.getElementById('key_input').validity.patternMismatch || document.getElementById('key_input').validity.valueMissing) {
           alert('Invalid key!');
           return;
         }
         var hexPattern = /([0-9a-f]{2})/ig;
-        var result_string = '';
+        var hex_result = '';
+        var ascii_result = '';
         var xor_key = parseInt(document.getElementById("key_input").value, 16);
         var text = document.getElementById("encoded_string").value.match(hexPattern);
         for (var i = 0; i < text.length; i++) {
-          result_string += String.fromCharCode(parseInt(text[i], 16) ^ xor_key);
+          hex_result += (parseInt(text[i], 16) ^ xor_key).toString(16);
+          ascii_result += String.fromCharCode(parseInt(text[i], 16) ^ xor_key);
         }
-        document.getElementById("results").value = result_string;
+        document.getElementById("hex_results").value = hex_result;
+        document.getElementById("results").value = ascii_result;
       };
     </script>
   </head>
@@ -26,6 +31,9 @@
     <br>
     <div><label id='encoded_string_lbl' for='encoded_string'>Encoded String (hex)</label></div>
     <textarea id="encoded_string" cols="80" rows="5" placeholder='Paste hex to decode here.'></textarea>
+    <br><br>
+    <div><label id='hex_results_lbl' for='hex_results'>Decoded String (hex)</label></div>
+    <textarea readonly id="hex_results" cols="80" rows="5"></textarea>
     <br><br>
     <div><label id='results_lbl' for='results'>Decoded String (ASCII)</label></div>
     <textarea readonly id="results" cols="80" rows="5"></textarea>
