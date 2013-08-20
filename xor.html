@@ -2,15 +2,14 @@
   <head>
     <script type='text/javascript'>
       function displayResult() {
-        var hexPattern = /([0-9a-f]{2})/;
-        var chars = [];
+        var hexPattern = /([0-9a-f]{2})/ig;
         var result_string = '';
         var xor_key = parseInt(document.getElementById("key_input").value, 16);
-        var text = document.getElementById("encoded_string").value.split(hexPattern);
+        var text = document.getElementById("encoded_string").value.match(hexPattern);
         for (var i = 0; i < text.length; i++) {
-          if (! text[i] == '') result_string += String.fromCharCode((parseInt(text[i], 16)) ^ xor_key);
+          result_string += String.fromCharCode(parseInt(text[i], 16) ^ xor_key);
         }
-        document.getElementById("results").value = result_string.split('').join('');
+        document.getElementById("results").value = result_string;
       };
     </script>
   </head>
