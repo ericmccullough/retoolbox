@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+  <head>
+    <script>
+      function displayResult() {
+        var hexPattern = /([0-9a-f]{2})/;
+        var chars = [];
+        var result_string = '';
+        document.getElementById("results").innerHTML = unescape(JSON.parse('"' + document.getElementById("encoded_string").value + '"'));
+      }
+    </script>
+  </head>
+  <body>
+    <div><label id='encoded_string_lbl' for='encoded_string'>Encoded String</label></div>
+    <textarea id="encoded_string" cols="80" rows="5">\u0078\u0066\u0061\u005b</textarea>
+    <br>
+    <button type="button" onclick="displayResult()">Decode</button>
+    <br><br>
+    <div><label id='results_lbl' for='results'>Output String (ASCII)</label></div>
+    <textarea readonly id="results" cols="80" rows="5"></textarea>
+  </body>
+</html>
