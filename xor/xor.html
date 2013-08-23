@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+  <head>
+    <script type='text/javascript'>
+      function displayResult() {
+        document.getElementById("hex_results").value = '';
+        document.getElementById("results").value = '';
+        if (document.getElementById('key_input').validity.patternMismatch || document.getElementById('key_input').validity.valueMissing) {
+          alert('Invalid key! Must be between 00 and ff hex.');
+          return;
+        }
+        var invalid_char = /[^0-9a-f]/i;
+        if (invalid_char.test(document.getElementById("input_string").value) || (document.getElementById("input_string").value.length)%2) {
+          alert("Invalid hex character in Input String.");
+          return;
+        }
+        var hex_pattern = /([0-9a-f]{2})/ig;
+        var hex_result = '';
+        var ascii_result = '';
+        var xor_key = parseInt(document.getElementById("key_input").value, 16);
+        var text = document.getElementById("input_string").value.match(hex_pattern);
+        for (var i = 0; i < text.length; i++) {
+          var hex_char = (parseInt(text[i], 16) ^ xor_key).toString(16);
+          if (hex_char.length === 1) { hex_char = '0' + hex_char; }
+          hex_result += hex_char;
+          ascii_result += String.fromCharCode(parseInt(text[i], 16) ^ xor_key);
+        }
+        document.getElementById("hex_results").value = hex_result;
+        document.getElementById("results").value = ascii_result;
+      };
+    </script>
+  </head>
+  <body>
+    <div>
+      <label id='key_lbl' for='key_input'>Single Hex Character Key</label>
+      <input type='text' required pattern='^[0-9a-fA-F]{2}$' id='key_input' name='key' size='2'></input>
+      <button type="button" onclick="displayResult()">XOR</button>
+    </div>
+    <br>
+    <div><label id='input_string_lbl' for='input_string'>Input String (hex)</label></div>
+    <textarea id="input_string" cols="80" rows="5" placeholder='Paste hex to decode here.'></textarea>
+    <br><br>
+    <div><label id='hex_results_lbl' for='hex_results'>Output String (hex)</label></div>
+    <textarea readonly id="hex_results" cols="80" rows="5"></textarea>
+    <br><br>
+    <div><label id='results_lbl' for='results'>Output String (ASCII)</label></div>
+    <textarea readonly id="results" cols="80" rows="5"></textarea>
+  </body>
+</html>

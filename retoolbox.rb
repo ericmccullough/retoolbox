@@ -5,7 +5,7 @@ configure do
 end
 
 get '/xor' do
-  send_file 'xor.html'
+  send_file 'xor/xor.html'
 end
 
 get '/vinself' do
