@@ -9,7 +9,7 @@ get '/xor' do
 end
 
 get '/vinself' do
-  send_file 'vinself.html'
+  send_file 'vinself/vinself.html'
 end
 
 get '/unidecode' do
