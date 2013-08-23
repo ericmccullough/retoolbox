@@ -13,5 +13,5 @@ get '/vinself' do
 end
 
 get '/unidecode' do
-  send_file 'unidecode.html'
+  send_file 'unidecode/unidecode.html'
 end
