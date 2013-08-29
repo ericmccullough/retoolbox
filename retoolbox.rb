@@ -15,3 +15,7 @@ end
 get '/unidecode' do
   send_file 'unidecode/unidecode.html'
 end
+
+get '/' do
+  send_file 'index.html'
+end
