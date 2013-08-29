@@ -1,21 +1,57 @@
 <!DOCTYPE html>
   <head>
-    <script>
-      function displayResult() {
-        var hexPattern = /([0-9a-f]{2})/;
-        var chars = [];
-        var result_string = '';
-        document.getElementById("results").innerHTML = unescape(JSON.parse('"' + document.getElementById("encoded_string").value + '"'));
-      }
-    </script>
+    <title>Unidecode</title>
   </head>
   <body>
-    <div><label id='encoded_string_lbl' for='encoded_string'>Encoded String</label></div>
-    <textarea id="encoded_string" cols="80" rows="5" placeholder='\u0078 %u0066 &amp;#x0061; &amp;#x005b &amp;#0061; &amp;#0062'></textarea>
-    <br>
-    <button type="button" onclick="displayResult()">Decode</button>
-    <br><br>
+    <div id='container'>
+      <div><label id='encoded_string_lbl' for='encoded_string'>Encoded String</label></div>
+      <textarea id="encoded_string" cols="80" rows="5" placeholder='\u0078 %u0066 &amp;#x0061; &amp;#x005b &amp;#0061; &amp;#0062'></textarea>
+      <br>
+      <button type="button" onclick="displayResult()">Decode to textarea</button>
+      <input type="text" value="MyFile.txt" placeholder="filename.txt">
+      <button onclick="downloadFile()">Decode to file</button> <output></output>
+    </div><br>
     <div><label id='results_lbl' for='results'>Output String (ASCII)</label></div>
     <textarea readonly id="results" cols="80" rows="5"></textarea>
+    <script>
+      function displayResult() { document.getElementById("results").innerHTML = decode(); };
+      function decode() { return unescape(JSON.parse('"' + document.getElementById("encoded_string").value + '"')); };
+      
+      const MIME_TYPE = 'text/plain';
+
+      var cleanUp = function(a) {
+        a.textContent = 'Downloaded';
+        a.dataset.disabled = true;
+
+        // Need a small delay for the revokeObjectURL to work properly.
+        setTimeout(function() {
+          window.URL.revokeObjectURL(a.href);
+        }, 1500);
+      };
+
+      var downloadFile = function() {
+        var output = document.querySelector('output');
+        var prevLink = output.querySelector('a');
+        if (prevLink) {
+          window.URL.revokeObjectURL(prevLink.href);
+          output.innerHTML = '';
+        }
+
+        var a = document.createElement('a');
+        a.download = document.querySelector('input[type="text"]').value;
+        a.href = window.URL.createObjectURL(new Blob([decode()], {type: MIME_TYPE}));
+        a.textContent = 'Download ready';
+
+        a.dataset.downloadurl = [MIME_TYPE, a.download, a.href].join(':');
+        output.appendChild(a);
+
+        a.onclick = function(e) {
+          if ('disabled' in this.dataset) {
+            return false;
+          }
+          cleanUp(this);
+        };
+      };
+    </script>
   </body>
 </html>
