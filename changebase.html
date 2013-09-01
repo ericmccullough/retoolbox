@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+  <head>
+    <script type='text/javascript'>
+      var BASE36 = "0123456789abcdefghijklmnopqrstuvwxyz";
+      function displayResult() {
+        document.getElementById("results").value = '';
+        if (document.getElementById('key_input').validity.valueMissing) {
+          alert('Invalid key! Must be between 02 and 36 hex.');
+          return;
+        }
+        var invalid_char = /[^0-9a-z]/i; //add space or other delimiter
+        if (invalid_char.test(document.getElementById("input_string").value) || (document.getElementById("input_string").value.length)%2) {
+          alert("Invalid hex character in Input String.");
+          return;
+        }
+        
+        var input_base = parseInt(document.getElementById("base_input").value);
+        //check range 2-36
+        //set valid_pattern based on input_base
+        var valid_pattern = /([0-9a-z]{2})/ig; //add space or other delimiter
+        var text = document.getElementById("input_string").value.match(valid_pattern);
+        for (var i = 0; i < text.length; i++) {
+          var hex_char = (parseInt(text[i], 16) ^ xor_key).toString(16);
+          if (hex_char.length === 1) { hex_char = '0' + hex_char; }
+          hex_result += hex_char;
+          ascii_result += String.fromCharCode(parseInt(text[i], 16) ^ xor_key);
+        }
+        document.getElementById("results").value = ascii_result;
+        
+        // num = parseInt(hexStr,16);
+        //
+        // number to string
+        // a = (32767).toString(16)  // result: "7fff"
+        // b = (255).toString(8)     // result: "377"
+        // c = (1295).toString(36)   // result: "zz"
+        // d = (127).toString(2)     // result: "1111111"
+      };
+    </script>
+  </head>
+  <body>
+    <div>
+      <label id='base_in_lbl' for='base_input'>Input base (2-36)</label>
+      <input type='number' required min='2' max='36' value='16' maxlength='2' id='base_input' name='base_in' size='2' autofocus></input>
+      <button type="button" onclick="displayResult()">Convert to</button>
+      <label id='base_out_lbl' for='base_output'>Output base (2-36)</label>
+      <input type='number' required min='2' max='36' value='10' maxlength='2' id='base_output' name='base_out' size='2' autofocus></input>
+    </div>
+    <br>
+    <div><label id='input_string_lbl' for='input_string'>Input String (space delimited)</label></div>
+    <textarea id="input_string" cols="80" rows="5" placeholder='Paste string to decode here.'></textarea>
+    <br><br>
+    <div><label id='results_lbl' for='results'>Output String (space delimited)</label></div>
+    <textarea readonly id="results" cols="80" rows="5"></textarea>
+  </body>
+</html>
