@@ -14,17 +14,18 @@
           alert('Output Base must be between 2 and 36, inclusive.');
           return;
         }
-        var invalid_char = /[^0-9a-z]/i; //add space or other delimiter
-        if (invalid_char.test(document.getElementById("input_string").value) || (document.getElementById("input_string").value.length)%2) {
-          alert("Invalid hex character in Input String.");
+        
+        var invalid_char = new RegExp('[^' + BASE36.slice(0,input_base-1) + ' ]',"i");
+        if (invalid_char.test(document.getElementById("input_string").value)) {
+          alert("Invalid character in Input String.");
           return;
         }
-        //set valid_pattern based on input_base
-        var valid_pattern = /([0-9a-z ]{2})/ig;
+        
+        var valid_pattern = new RegExp('([' + BASE36.slice(0,input_base-1) + ']+) ?',"ig");
         var text = document.getElementById("input_string").value.match(valid_pattern);
         var result = '';
         for (var i = 0; i < text.length; i++) {
-          result += parseInt(text[i], input_base).toString(output_base);
+          result += parseInt(text[i], input_base).toString(output_base) + ' ';
         }
         document.getElementById("results").value = result;
       };
