@@ -4,8 +4,14 @@
       var BASE36 = "0123456789abcdefghijklmnopqrstuvwxyz";
       function displayResult() {
         document.getElementById("results").value = '';
-        if (document.getElementById('key_input').validity.valueMissing) {
-          alert('Invalid key! Must be between 02 and 36 hex.');
+        var input_base = parseInt(document.getElementById("base_input").value);
+        if (document.getElementById('base_input').validity.valueMissing || input_base < 2 || input_base > 36) {
+          alert('Input Base must be between 2 and 36, inclusive.');
+          return;
+        }
+        var output_base = parseInt(document.getElementById("base_output").value);
+        if (document.getElementById('base_output').validity.valueMissing || output_base < 2 || output_base > 36) {
+          alert('Output Base must be between 2 and 36, inclusive.');
           return;
         }
         var invalid_char = /[^0-9a-z]/i; //add space or other delimiter
@@ -13,27 +19,14 @@
           alert("Invalid hex character in Input String.");
           return;
         }
-        
-        var input_base = parseInt(document.getElementById("base_input").value);
-        //check range 2-36
         //set valid_pattern based on input_base
-        var valid_pattern = /([0-9a-z]{2})/ig; //add space or other delimiter
+        var valid_pattern = /([0-9a-z ]{2})/ig;
         var text = document.getElementById("input_string").value.match(valid_pattern);
+        var result = '';
         for (var i = 0; i < text.length; i++) {
-          var hex_char = (parseInt(text[i], 16) ^ xor_key).toString(16);
-          if (hex_char.length === 1) { hex_char = '0' + hex_char; }
-          hex_result += hex_char;
-          ascii_result += String.fromCharCode(parseInt(text[i], 16) ^ xor_key);
+          result += parseInt(text[i], input_base).toString(output_base);
         }
-        document.getElementById("results").value = ascii_result;
-        
-        // num = parseInt(hexStr,16);
-        //
-        // number to string
-        // a = (32767).toString(16)  // result: "7fff"
-        // b = (255).toString(8)     // result: "377"
-        // c = (1295).toString(36)   // result: "zz"
-        // d = (127).toString(2)     // result: "1111111"
+        document.getElementById("results").value = result;
       };
     </script>
   </head>
