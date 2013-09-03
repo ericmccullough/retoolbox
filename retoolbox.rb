@@ -16,6 +16,10 @@ get '/unidecode' do
   send_file 'unidecode/unidecode.html'
 end
 
+get '/changebase' do
+  send_file 'changebase/changebase.html'
+end
+
 get '/' do
   send_file 'index.html'
 end
