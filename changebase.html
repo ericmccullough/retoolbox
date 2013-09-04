@@ -1,9 +1,10 @@
 <!DOCTYPE html>
   <head>
     <script type='text/javascript'>
-      var BASE36 = "0123456789abcdefghijklmnopqrstuvwxyz";
       function displayResult() {
+        var BASE36 = "0123456789abcdefghijklmnopqrstuvwxyz";
         document.getElementById("results").value = '';
+        
         var input_base = parseInt(document.getElementById("base_input").value);
         if (document.getElementById('base_input').validity.valueMissing || input_base < 2 || input_base > 36) {
           alert('Input Base must be between 2 and 36, inclusive.');
@@ -15,17 +16,30 @@
           return;
         }
         
-        var invalid_char = new RegExp('[^' + BASE36.slice(0,input_base-1) + ' ]',"i");
-        if (invalid_char.test(document.getElementById("input_string").value)) {
-          alert("Invalid character in Input String.");
-          return;
+        var input_delimiter;
+        if (document.getElementById("input_delimiter_type_ascii").checked) {
+          input_delimiter = document.getElementById("input_delimiter").value;
+        } else {
+          input_delimiter = String.fromCharCode(parseInt(document.getElementById("input_delimiter").value, 16));
         }
         
-        var valid_pattern = new RegExp('([' + BASE36.slice(0,input_base-1) + ']+) ?',"ig");
-        var text = document.getElementById("input_string").value.match(valid_pattern);
+        var output_delimiter;
+        if (document.getElementById("output_delimiter_type_ascii").checked) {
+          output_delimiter = document.getElementById("output_delimiter").value;
+        } else {
+          output_delimiter = String.fromCharCode(parseInt(document.getElementById("output_delimiter").value, 16));
+        }
+        
+        var invalid_char = new RegExp('[^' + BASE36.slice(0,input_base) + ']',"i");
+
+        var text = document.getElementById("input_string").value.split(input_delimiter).filter(function(n){return n;});
         var result = '';
         for (var i = 0; i < text.length; i++) {
-          result += parseInt(text[i], input_base).toString(output_base) + ' ';
+          if (invalid_char.test(text[i])) {
+            alert('Invalid character in Input String = ' + text[i]);
+            return;
+          }
+          result += output_delimiter + parseInt(text[i], input_base).toString(output_base);
         }
         document.getElementById("results").value = result;
       };
@@ -38,12 +52,26 @@
       <button type="button" onclick="displayResult()">Convert to</button>
       <label id='base_out_lbl' for='base_output'>Output base (2-36)</label>
       <input type='number' required min='2' max='36' value='10' maxlength='2' id='base_output' name='base_out' size='2' autofocus></input>
+      <br>
+      <label id='input_delimiter_lbl' for='input_delimiter'>Input delimiter</label>
+      <input type='text' value=' ' id='input_delimiter' name='input_delimiter'></input>
+      <label for='input_delimiter_type_ascii'>ASCII</label>
+      <input type='radio' name='input_delimiter_type' id='input_delimiter_type_ascii' value='ascii' checked='checked'/>
+      <label for='input_delimiter_type_hex'>HEX</label>
+      <input type='radio' name='input_delimiter_type' id='input_delimiter_type_hex' value='hex'/>
+      <br>
+      <label id='output_delimiter_lbl' for='output_delimiter'>Output delimiter</label>
+      <input type='text' value=' ' id='output_delimiter' name='output_delimiter'></input>
+      <label for='output_delimiter_type_ascii'>ASCII</label>
+      <input type='radio' name='output_delimiter_type' id='output_delimiter_type_ascii' value='ascii' checked='checked'/>
+      <label for='output_delimiter_type_hex'>HEX</label>
+      <input type='radio' name='output_delimiter_type' id='output_delimiter_type_hex' value='hex'/>
     </div>
     <br>
-    <div><label id='input_string_lbl' for='input_string'>Input String (space delimited)</label></div>
+    <div><label id='input_string_lbl' for='input_string'>Input String</label></div>
     <textarea id="input_string" cols="80" rows="5" placeholder='Paste string to decode here.'></textarea>
     <br><br>
-    <div><label id='results_lbl' for='results'>Output String (space delimited)</label></div>
+    <div><label id='results_lbl' for='results'>Output String</label></div>
     <textarea readonly id="results" cols="80" rows="5"></textarea>
   </body>
 </html>
