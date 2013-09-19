@@ -5,10 +5,10 @@ Continuing to add additional paths as I make more little utility pages.
 
 Included repositories:
 
-https://github.com/ericmccullough/xor
+[xor](https://github.com/ericmccullough/xor)
 
-https://github.com/ericmccullough/vinself_decoder
+[Vinself Decoder](https://github.com/ericmccullough/vinself_decoder)
 
-https://github.com/ericmccullough/unidecode
+[Unicode Decoder](https://github.com/ericmccullough/unidecode)
 
-https://github.com/ericmccullough/change_base
+[Change Base](https://github.com/ericmccullough/change_base)
